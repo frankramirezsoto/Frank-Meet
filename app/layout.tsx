@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import '@stream-io/video-react-sdk/dist/css/styles.css';
-
+import Head from "next/head";
 import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -11,6 +11,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Frank Meet",
   description: "Frank Meet is an app to make a virtual meeting",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
