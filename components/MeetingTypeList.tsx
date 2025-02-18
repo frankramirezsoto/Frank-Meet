@@ -41,15 +41,20 @@ const MeetingTypeList = () => {
 
   //Function to create a meeting 
   const createMeeting = async () => {
+    //Return if there's no client and no user 
     if (!client || !user) return;
     try {
+      //Returns if there's no date and time of the meeting
       if (!values.dateTime) {
         toast({ title: 'Please select a date and time' });
         return;
       }
+      //Creating the meeting ID
       const id = crypto.randomUUID();
+      //Creating call of type 'default' and passing the id: https://getstream.io/video/docs/react/guides/configuring-call-types/
       const call = client.call('default', id);
       if (!call) throw new Error('Failed to create meeting');
+      //Set call start time & description using the getOrCreate function: https://getstream.io/video/docs/react/guides/joining-and-creating-calls/#call-creation-options 
       const startsAt =
         values.dateTime.toISOString() || new Date(Date.now()).toISOString();
       const description = values.description || 'Instant Meeting';
@@ -61,6 +66,7 @@ const MeetingTypeList = () => {
           },
         },
       });
+      //Setting Call Detail
       setCallDetail(call);
       if (!values.description) {
         router.push(`/meeting/${call.id}`);
@@ -79,7 +85,8 @@ const MeetingTypeList = () => {
 
   return (
     <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-
+      
+      {/* ACTIONS */}
       <HomeCard
         img="/icons/add-meeting.svg"
         title="New Meeting"
@@ -109,6 +116,9 @@ const MeetingTypeList = () => {
         handleClick={() => router.push('/recordings')}
       />
 
+      {/* MODALS */}
+
+      {/* Scheduling meeting Modal */}
       {/* For scheduling a meeting, if we don't have the call details (time, date, description) we request them, else we have the copy link modal */}
       {!callDetail ? (
         <MeetingModal
@@ -160,7 +170,8 @@ const MeetingTypeList = () => {
           buttonText="Copy Meeting Link"
         />
       )}
-
+      
+      {/* Instant Meeting Modal */}
       <MeetingModal
         isOpen={meetingState === 'isInstantMeeting'}
         onClose={() => setMeetingState(undefined)}
@@ -170,6 +181,7 @@ const MeetingTypeList = () => {
         handleClick={createMeeting}
       />
 
+    {/* Joining Meeting Modal */}
       <MeetingModal
         isOpen={meetingState === 'isJoiningMeeting'}
         onClose={() => setMeetingState(undefined)}

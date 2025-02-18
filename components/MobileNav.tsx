@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { sidebarLinks } from '@/constants';
 import { cn } from '@/lib/utils';
+import Logo from './Logo';
 
 const MobileNav = () => {
   const pathname = usePathname();
@@ -24,15 +25,7 @@ const MobileNav = () => {
           />
         </SheetTrigger>
         <SheetContent side="left" className="border-none bg-dark-1">
-          <Link href="/" className="flex items-center gap-1">
-            <Image
-              src="/icons/logo.svg"
-              width={32}
-              height={32}
-              alt="frank-meet"
-            />
-            <p className="text-[26px] font-extralight text-white">Frank Meet</p>
-          </Link>
+          <Logo size={40} className='text-2xl'/>
           <div className="flex h-[calc(100vh-72px)] flex-col justify-between overflow-y-auto">
             <SheetClose asChild>
               <section className=" flex h-full flex-col gap-6 pt-16 text-white">

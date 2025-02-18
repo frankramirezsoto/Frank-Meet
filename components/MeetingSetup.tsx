@@ -9,7 +9,6 @@ import {
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
-import Link from "next/link";
 import Logo from "./Logo";
 
 const MeetingSetup = ({
@@ -21,11 +20,7 @@ const MeetingSetup = ({
   const {
     useCallEndedAt,
     useCallStartsAt,
-    useMicrophoneState,
-    useCameraState,
   } = useCallStateHooks();
-  const { camera } = useCameraState();
-  const { microphone } = useMicrophoneState();
 
   //Required to determine start and end time of the call
   const callStartsAt = useCallStartsAt();
