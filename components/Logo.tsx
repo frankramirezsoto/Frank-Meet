@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 
 const Logo = ({className, size}:{className?:string, size?:number}) => {
   return (
-    <Link href="/" className={cn('flex items-center justify-center gap-1 text-4xl',className)}>
+    <Link href="/" className={cn('flex items-center justify-center gap-2 text-4xl',className)}>
             <Image
               src="/icons/logo.svg"
               width={size || 52}

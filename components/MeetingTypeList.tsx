@@ -10,6 +10,7 @@ import Loader from './Loader';
 import { useToast } from './ui/use-toast';
 import { Textarea } from './ui/textarea';
 import ReactDatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css'
 import { Input } from './ui/input';
 
 const initialValues = {
@@ -19,17 +20,26 @@ const initialValues = {
 };
 
 const MeetingTypeList = () => {
-    const router = useRouter();
+  //Used to redirect
+  const router = useRouter();
+  //Meeting state could be that we are looking to start an instant meeting, schedule it or joining a meeting
   const [meetingState, setMeetingState] = useState<
     'isScheduleMeeting' | 'isJoiningMeeting' | 'isInstantMeeting' | undefined
   >(undefined);
+  //Values are date, description and link 
   const [values, setValues] = useState(initialValues);
+  //Using the state of the Call Object 
   const [callDetail, setCallDetail] = useState<Call>();
-
+  //Meeting link
+  const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${callDetail?.id}`;
+  //We get a video client Stream.io: https://getstream.io/video/docs/react/guides/client-auth/
   const client = useStreamVideoClient();
+  //Gets user from Clerk 
   const { user } = useUser();
+  //Toast for messages
   const { toast } = useToast();
 
+  //Function to create a meeting 
   const createMeeting = async () => {
     if (!client || !user) return;
     try {
@@ -64,12 +74,13 @@ const MeetingTypeList = () => {
     }
   };
 
+  //If there's no video client and no user it will return a loader 
   if (!client || !user) return <Loader />;
-  const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${callDetail?.id}`;
 
   return (
     <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-         <HomeCard
+
+      <HomeCard
         img="/icons/add-meeting.svg"
         title="New Meeting"
         description="Start an instant meeting"
@@ -97,6 +108,8 @@ const MeetingTypeList = () => {
         className="bg-gradient-to-r from-yellow-700 to-yellow-400"
         handleClick={() => router.push('/recordings')}
       />
+
+      {/* For scheduling a meeting, if we don't have the call details (time, date, description) we request them, else we have the copy link modal */}
       {!callDetail ? (
         <MeetingModal
           isOpen={meetingState === 'isScheduleMeeting'}
@@ -122,7 +135,8 @@ const MeetingTypeList = () => {
             <ReactDatePicker
               selected={values.dateTime}
               onChange={(date) => setValues({ ...values, dateTime: date! })}
-              showTimeSelect
+              showTimeSelect 
+              showMonthYearDropdown
               timeFormat="HH:mm"
               timeIntervals={15}
               timeCaption="time"

@@ -1,11 +1,11 @@
 import { SignIn } from "@clerk/nextjs";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 
 const SignInPage = () => {
   return (
     <main className="grid grid-cols-1 lg:grid-cols-2 h-screen w-full">
+      {/* Sign In Ad */}
       <div
         className="bg-random w-full h-screen hidden lg:block bg-cover overflow-y-hidden"
         style={{ backgroundImage: "url('./images/background.jpg')" }}
@@ -29,6 +29,7 @@ const SignInPage = () => {
             Frank Meet
           </p>
         </div>
+        {/* SignIn Component from Clerk: https://clerk.com/docs/components/authentication/sign-in*/}
         <SignIn />
       </div>
     </main>
